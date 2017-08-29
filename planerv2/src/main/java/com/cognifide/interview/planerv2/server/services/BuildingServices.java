@@ -146,6 +146,7 @@ public class BuildingServices {
 	}
 
 	public String getAllAvailableReservations(String buildingName) {
+		String result = new String();
 		if (!listOFBuildings.containsKey(buildingName)) {
 			return "ERROR: Building does not exists";
 		} else {
@@ -155,7 +156,14 @@ public class BuildingServices {
 			if (rooms == null || rooms.size() == 0) {
 				return "ERROR: No rooms in the building";
 			} else {
-				return rooms.toString();
+				for(Room room: rooms) {
+					try {
+						result += room.getAvailableReservations().toString();
+					} catch (DataTimeValidatorException e) {
+						return "ERROR: " + e.getMessage();
+					}
+				}
+				return result;
 			}
 		}
 	}

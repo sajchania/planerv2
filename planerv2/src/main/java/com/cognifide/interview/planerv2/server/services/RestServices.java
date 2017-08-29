@@ -41,11 +41,11 @@ public class RestServices {
 	}
 
 	/**
-	 * curl -X GET http://localhost:6060/services/planer/building/hotel
+	 * curl -X GET http://localhost:6060/services/planer/building/get/hotel
 	 * 
 	 * @param name
 	 */
-	@RequestMapping(value = "/building/{name}", method = RequestMethod.GET)
+	@RequestMapping(value = "/building/get/{name}", method = RequestMethod.GET)
 	public String getBuilding(
 			@PathVariable("name") final String name) {
 		return buildingServices.getBuilding(name);

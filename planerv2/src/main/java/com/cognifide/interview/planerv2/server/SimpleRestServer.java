@@ -10,15 +10,38 @@ import io.advantageous.qbit.server.ServiceEndpointServer;
 @RequestMapping("/services")
 public class SimpleRestServer {
 
-	public static void main(String... args) throws Exception {
+	private static final int PORT_VALUE = 6060;
+	private static ServiceEndpointServer server;
+	private static boolean isServerRunning = false;
 
-		final ServiceEndpointServer server = new EndpointServerBuilder()
-				.setPort(6060)
-				.build()
-				.initServices(new RestServices())
-				.startServer();
-
+	private static final RestServices restServices = new RestServices();
+	
+	
+	public static void main(String... args) {
+		start();
 		Sys.sleep(1_000_000_000);
+	}
+
+	public static void start() {
+		if (!isServerRunning()) {
+			server = new EndpointServerBuilder().setPort(PORT_VALUE).build().initServices(restServices).startServer();
+			setServerRunning(true);
+		}
+	}
+
+	public static void stop() {
+		if (isServerRunning()) {
+			server.stop();
+			setServerRunning(false);
+		}
+	}
+
+	public static boolean isServerRunning() {
+		return isServerRunning;
+	}
+
+	private static void setServerRunning(boolean isServerRunning) {
+		SimpleRestServer.isServerRunning = isServerRunning;
 	}
 
 }
